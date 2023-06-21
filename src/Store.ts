@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import checkReducer from './features/MovieSlice';
 import movieReducer from './features/MovieSlice';
 export type State = {
   movies: [
