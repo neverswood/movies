@@ -1,8 +1,11 @@
-import { ToggleButtonLikeDislike } from './ToggleButtonLikeDislike';
 import '../styles/MovieCard.scss';
 import { ProgressBar } from './ProgressBar';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
+import { FaTrashAlt } from 'react-icons/fa';
+import ButtonLikeDislike from './ButtonLikeDislike';
+import { FcLike } from 'react-icons/fc';
+import { FcDislike } from 'react-icons/fc';
 
 type MovieProps = {
   id: string;
@@ -19,7 +22,7 @@ type MovieProps = {
  * @param {string} category - The movie category
  * @param {number} likes - The movie likes
  * @param {number} dislikes - The movie dislikes
- * @returns {MovieCard}
+ * @returns {MovieCardProps}
  */
 
 export function MovieCard({
@@ -30,24 +33,51 @@ export function MovieCard({
   dislikes,
 }: MovieProps) {
   const [purcentLike, setPurcentLike] = useState(100);
-  const [check, setCheck] = useState(false);
   const [show, setShow] = useState(false);
   const [like, setLike] = useState(likes);
   const [dislike, setDislike] = useState(dislikes);
+  const [colorLike, setColorLike] = useState('');
+  const [colorDislike, setColorDislike] = useState('');
 
-  /* Incrment, decrement likes and dislikes */
-  const onClick = () => {
-    if (!check) {
-      setLike(likes + 1);
-      if (dislike === dislikes + 1) {
+  let coloringNoClick = '#c8d883';
+  let coloringClick = '#d9fb49';
+
+  /* Function to increment and decrement the likes, to change the color of the button according to its state */
+
+  const incrementDecrementLike = () => {
+    if (likes === like) {
+      if (dislike === dislikes) {
+        setLike(likes + 1);
+        setColorLike(coloringClick);
+        setColorDislike(coloringNoClick);
+      } else if (dislike === dislikes + 1) {
         setDislike(dislike - 1);
+        setLike(likes + 1);
+        setColorLike(coloringClick);
+        setColorDislike(coloringNoClick);
       }
-    } else if (check) {
-      if (like === likes + 1) {
+    } else if (like === likes + 1 && dislikes === dislike) {
+      setLike(likes);
+      setColorLike(coloringNoClick);
+    }
+  };
+
+  /* Function to increment and decrement the dislikes, to change the color of the button according to its state */
+  const incrementDecrementDislike = () => {
+    if (dislikes === dislike) {
+      if (like === likes) {
+        setDislike(dislikes + 1);
+        setColorDislike(coloringClick);
+        setColorLike(coloringNoClick);
+      } else if (like === likes + 1) {
         setLike(like - 1);
-        setDislike(dislike + 1);
-      } else if (like == likes) {
+        setDislike(dislikes + 1);
+        setColorLike(coloringNoClick);
+        setColorDislike(coloringClick);
       }
+    } else if (like === likes && dislikes + 1 === dislike) {
+      setDislike(dislikes);
+      setColorDislike(coloringNoClick);
     }
   };
 
@@ -60,35 +90,49 @@ export function MovieCard({
     }
   }, []);
 
-  const deleteCard = (e: any) => {
+  const deleteCard = () => {
     setShow(true);
-    if (show === true) {
-    }
   };
 
   return (
     <React.Fragment>
       {!show ? (
         <div className="card-container" data-value={id}>
-          <h2>{id}</h2>
           <h1>{title}</h1>
           <p>{category}</p>
           <div className="card-container__button">
-            <ToggleButtonLikeDislike
-              check={check}
-              onChange={(e: ChangeEvent<HTMLInputElement>): void => {
-                setCheck(e.target.checked);
-              }}
-              onClick={onClick}
+            <ButtonLikeDislike
+              changeLike={incrementDecrementLike}
+              changeDislike={incrementDecrementDislike}
+              styleLike={colorLike}
+              styleDislike={colorDislike}
+              textLike={
+                like <= 1 ? (
+                  <span className=" container-likeDislike__span container-likeDislike__span--like">
+                    <FcLike /> Like {like}
+                  </span>
+                ) : (
+                  <span className=" container-likeDislike__span container-likeDislike__span--like">
+                    <FcLike /> Likes {like}
+                  </span>
+                )
+              }
+              textDislike={
+                dislike <= 1 ? (
+                  <span className=" container-likeDislike__span container-likeDislike__span--dislike">
+                    Dislike {dislike} <FcDislike />
+                  </span>
+                ) : (
+                  <span className=" container-likeDislike__span container-likeDislike__span--dislike">
+                    Dislikes {dislike} <FcDislike />
+                  </span>
+                )
+              }
             />
           </div>
-          <div className="card__likesdislikes">
-            <span>{like}</span>
-            <span>{dislike}</span>
-          </div>
           <ProgressBar like={purcentLike} />
-          <button onClick={deleteCard}>
-            <i className="fa-solid fa-trash"></i>
+          <button onClick={deleteCard} className="button-delete">
+            <FaTrashAlt />
           </button>
         </div>
       ) : null}
