@@ -1,23 +1,30 @@
 import { MovieCardList } from '../components/MovieCardList';
-import { useEffect, useState } from 'react';
-import '../styles/Home.scss';
-import { getMovie } from '../services/Movies';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateMovie } from '../features/MovieSlice';
 import { Movie } from '../services/models/MovieDataModel';
-import SelectOption from '../components/SelectOption';
+import { State } from '../Store';
+import SelectCategory from '../components/SelectCategory';
 
-/** Home function to display the list of movies and filter them by categories */
+/**
+ * Home function to display the list of movies and filter them by categories
+ * @param {Movie[]} data - The data Movie
+ */
 
-export function Home() {
-  const [data, setData] = useState<Movie[]>([]);
-  const [option, setOption] = useState('');
+export function Home({ data }: { data: Movie[] }) {
   const dispatch = useDispatch();
-  dispatch(updateMovie(data));
 
-  useEffect(() => {
-    getMovie().then((response) => setData(response));
-  }, []);
+  const selectOptions = useSelector((state: State) => state.option.options);
+
+  const FilterMovieByCategory = data.filter((movie: any) => {
+    return selectOptions.includes(movie.category);
+  });
+
+  /* Send movies sort by category in redux */
+  if (selectOptions.length === 0 || selectOptions === null) {
+    dispatch(updateMovie(data));
+  } else if (selectOptions.length >= 1) {
+    dispatch(updateMovie(FilterMovieByCategory));
+  }
 
   /* Category movie recovery */
   const options = data.map((movie) => {
@@ -32,23 +39,10 @@ export function Home() {
     return { label: option, value: option };
   });
 
-  const filterMovieByCategory = data.filter((movie) =>
-    movie.category.includes(option)
-  );
-
-  dispatch(updateMovie(filterMovieByCategory));
-
   return (
     <div>
-      <SelectOption
-        value={option}
-        placeholder="filter"
-        options={uniqueOptionsObject}
-        onClick={(e) => {
-          setOption(e.value);
-        }}
-      />
-      <MovieCardList data={filterMovieByCategory} />
+      <SelectCategory option={uniqueOptionsObject} key={''} />
+      <MovieCardList />
     </div>
   );
 }
