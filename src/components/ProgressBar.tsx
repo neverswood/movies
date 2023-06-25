@@ -1,10 +1,9 @@
 import '../styles/ProgressBar.scss';
 
 /**
- * 
-Function that displays a gauge to visualize the percentage of number of likes and dislikes
+ *Function that displays a gauge to visualize the percentage of number of likes and dislikes
  * @param {number} like - The movie likes
- * @returns {ProgressBar}
+ * @returns {number}
  */
 
 export function ProgressBar({ like }: { like: number }) {
