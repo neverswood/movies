@@ -1,15 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import movieReducer from './features/MovieSlice';
+import movieReducer, { Movie } from './features/MovieSlice';
+import SelectedOptionReducer from './features/SelectedOptionSlice';
 export type State = {
-  movies: [
-    {
-      id: string;
-      title: string;
-      category: string;
-      likes: number;
-      dislikes: number;
-    }
-  ];
+  movie: {
+    data: Movie[];
+  };
+  option: {
+    options: Array<string>;
+  };
 };
 
 export type ReduxAction<T, P> = { type: T; payload: P };
@@ -27,6 +25,7 @@ export type GetState = () => State;
 export const store = configureStore({
   reducer: {
     movie: movieReducer,
+    option: SelectedOptionReducer,
   },
 });
 
