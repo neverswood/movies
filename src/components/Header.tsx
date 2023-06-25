@@ -1,7 +1,9 @@
+import '../styles/Header.scss';
+
 export default function Header() {
   return (
-    <div className="header">
+    <header className="header">
       <h1>Movies</h1>
-    </div>
+    </header>
   );
 }

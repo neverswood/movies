@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+progress {
+  accent-color: rgb(121 255 55);
+  height: 10px;
+}
+
+progress[value]::-moz-progress-value,
+progress[value]::-webkit-progress-value {
+  background-color: aqua;
+  color: brown;
+}

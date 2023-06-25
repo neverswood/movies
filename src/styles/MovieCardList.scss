@@ -1,0 +1,38 @@
+.movie-card-list {
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  &__item {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+  }
+  &__pagination {
+    margin: 50px 0;
+  }
+}
+
+.ant-pagination-item-active {
+  background-color: #b2d22a !important;
+  border-radius: 15px !important;
+  border: none !important;
+}
+
+.ant-pagination-item a {
+  color: white !important;
+  font-size: 17px;
+}
+
+.ant-pagination-item-active a {
+  color: #3f6084 !important;
+}
+
+.ant-pagination-item-link {
+  font-size: 22px !important;
+}
+
+.anticon-right,
+.anticon-left {
+  color: #b2d22a !important;
+}
