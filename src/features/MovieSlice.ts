@@ -1,35 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type initialStateProps = {
-  movies: [
-    {
-      id: string;
-      title: string;
-      category: string;
-      likes: number;
-      dislikes: number;
-    }
-  ];
+  data: Array<{
+    id: string;
+    title: string;
+    category: string;
+    likes: number;
+    dislikes: number;
+  }>;
+};
+
+export type Movie = {
+  id: string;
+  title: string;
+  category: string;
+  likes: number;
+  dislikes: number;
 };
 
 const initialState: initialStateProps = {
-  movies: [
-    {
-      id: '',
-      title: '',
-      category: '',
-      likes: 0,
-      dislikes: 0,
-    },
-  ],
+  data: [],
 };
 
 export const movieSlice = createSlice({
-  name: 'movie',
+  name: 'movies',
   initialState,
   reducers: {
     updateMovie: (state, action) => {
-      state.movies = action.payload;
+      state.data = action.payload;
     },
   },
 });
