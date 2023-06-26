@@ -1,0 +1,20 @@
+:root {
+  width: 100%;
+}
+
+body,
+html {
+  min-height: 100vh;
+  margin: 0;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: radial-gradient(#264a73 48%, black 83%);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+code {
+  font-family: 'Montserrat', sans-serif;
+}
